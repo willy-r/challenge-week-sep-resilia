@@ -72,3 +72,7 @@ button {
     background-color: unset;
     outline: none;
 }
+
+button {
+    cursor: pointer;
+}

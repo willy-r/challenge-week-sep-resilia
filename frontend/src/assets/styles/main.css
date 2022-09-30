@@ -3,9 +3,15 @@
 
     --clr-black-900: #000;
     --clr-white-900: #fff;
+    --clr-yellow-900: #ffdd00;
 
     --bgc-header: #000;
+    --bgc-form: #000;
+    --bgc-input: #d9d9d9;
     --bgc-body: #ffdd00;
+
+    --bd-radius: 20px;
+    --bd-radius-btn: 10px;
 }
 
 body {

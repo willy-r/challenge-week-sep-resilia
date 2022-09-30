@@ -1,0 +1,32 @@
+.form-wrapper {
+    background-color: var(--bgc-form);
+    padding: 3% 5%;
+    margin: 0 4%;
+    border-radius: var(--bd-radius);
+}
+
+.main-form {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.main-form > input {
+    background-color: var(--bgc-input);
+    color: var(--clr-black-900);
+    padding: 1% 2%;
+    font-size: 1rem;
+    border-radius: var(--bd-radius);
+}
+
+.main-form > button {
+    color: var(--clr-black-900);
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: var(--clr-yellow-900);
+    border-radius: var(--bd-radius-btn);
+    padding: 1% 6%;
+}
