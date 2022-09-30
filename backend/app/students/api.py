@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
 
 from ..dependencies import get_db
@@ -31,7 +31,11 @@ def read_student(student_id: int, db: Session = Depends(get_db)):
     return db_student
 
 
-@router.post("", response_model=schemas.Student)
+@router.post(
+    "",
+    response_model=schemas.Student,
+    status_code=status.HTTP_201_CREATED,
+)
 def create_student(
     student: schemas.StudentCreate,
     db: Session = Depends(get_db),
@@ -43,3 +47,43 @@ def create_student(
             status_code=status.HTTP_400_BAD_REQUEST,
         )
     return crud.create_student(db, student)
+
+
+@router.patch("/{student_id}", response_model=schemas.Student)
+def update_student(
+    student_id: int,
+    student: schemas.StudentUpdate,
+    db: Session = Depends(get_db),
+):
+    db_student = crud.get_student_by_id(db, student_id)
+    if db_student is None:
+        raise HTTPException(
+            detail=f"Student with ID {student_id} was not found",
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    if student.student_name != db_student.student_name:
+        if (student.student_name is not None and
+                crud.get_student_by_name(db, student.student_name)) is not None:
+            raise HTTPException(
+                detail=f"Student with name {student.student_name} already registered",
+                status_code=status.HTTP_400_BAD_REQUEST,
+            )
+    return crud.update_student(db, student_id, student)
+
+
+@router.delete(
+    "/{student_id}",
+    response_class=Response,
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def delete_student(
+    student_id: int,
+    db: Session = Depends(get_db),
+):
+    db_student = crud.get_student_by_id(db, student_id)
+    if db_student is None:
+        raise HTTPException(
+            detail=f"Student with ID {student_id} was not found",
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    crud.delete_student_by_id(db, student_id)

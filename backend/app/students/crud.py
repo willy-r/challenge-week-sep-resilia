@@ -29,3 +29,20 @@ def create_student(
     db.commit()
     db.refresh(db_student)
     return db_student
+
+
+def update_student(
+    db: Session, student_id: int, student: schemas.StudentUpdate
+) -> models.Student:
+    db_student = get_student_by_id(db, student_id)
+    stored_student = schemas.Student(**db_student.__dict__)
+    updated_student = stored_student.copy(update=student.dict(exclude_unset=True))
+    db.query(models.Student).filter_by(id=student_id).update(updated_student.dict())
+    db.commit()
+    db.refresh(db_student)
+    return db_student
+
+
+def delete_student_by_id(db: Session, student_id: int) -> None:
+    db.query(models.Student).filter_by(id=student_id).delete()
+    db.commit()
