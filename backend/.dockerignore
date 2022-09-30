@@ -2,3 +2,6 @@ venv/
 .python-version
 .gitignore
 requirements.txt
+.env
+.env.example
+db.sqlite3
