@@ -25,7 +25,7 @@ def read_student(student_id: int, db: Session = Depends(get_db)):
     db_student = crud.get_student_by_id(db, student_id)
     if db_student is None:
         raise HTTPException(
-            detail=f"Student with ID {student_id} was not found",
+            detail="Estudante não foi encontrado",
             status_code=status.HTTP_404_NOT_FOUND,
         )
     return db_student
@@ -43,7 +43,7 @@ def create_student(
     db_student = crud.get_student_by_name(db, student.student_name)
     if db_student is not None:
         raise HTTPException(
-            detail=f"Student with name {student.student_name} already registered",
+            detail=f"Estudante com o nome {student.student_name} já está cadastrado",
             status_code=status.HTTP_400_BAD_REQUEST,
         )
     return crud.create_student(db, student)
@@ -58,14 +58,14 @@ def update_student(
     db_student = crud.get_student_by_id(db, student_id)
     if db_student is None:
         raise HTTPException(
-            detail=f"Student with ID {student_id} was not found",
+            detail=f"Estudante não foi encontrado",
             status_code=status.HTTP_404_NOT_FOUND,
         )
     if student.student_name != db_student.student_name:
         if (student.student_name is not None and
                 crud.get_student_by_name(db, student.student_name)) is not None:
             raise HTTPException(
-                detail=f"Student with name {student.student_name} already registered",
+                detail=f"Estudante com o nome {student.student_name} já está cadastrado",
                 status_code=status.HTTP_400_BAD_REQUEST,
             )
     return crud.update_student(db, student_id, student)
@@ -83,7 +83,7 @@ def delete_student(
     db_student = crud.get_student_by_id(db, student_id)
     if db_student is None:
         raise HTTPException(
-            detail=f"Student with ID {student_id} was not found",
+            detail=f"Estudante não foi encontrado",
             status_code=status.HTTP_404_NOT_FOUND,
         )
     crud.delete_student_by_id(db, student_id)

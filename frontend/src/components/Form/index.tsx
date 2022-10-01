@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 import { createStudentService } from "../../services/students.api";
 
 import "./styles.css";
@@ -14,7 +16,15 @@ function Form() {
     const classTag = target.classTag.value;
     const age = target.age.value;
 
-    await createStudentService({ studentName, classTag, age });
+    toast.promise(createStudentService({ studentName, classTag, age }), {
+      pending: "Salvando estudante no banco de dados...",
+      success: "Estudante salvo com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message;
+        },
+      },
+    });
   };
 
   return (
