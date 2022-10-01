@@ -1,0 +1,19 @@
+.title-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+}
+
+.main-title {
+    font-size: 3.125rem;
+    font-weight: 700;
+    color: var(--clr-black-900);
+    margin-bottom: 2%;
+}
+
+.main-description {
+    font-size: 1.125rem;
+    color: var(--clr-black-900);
+}

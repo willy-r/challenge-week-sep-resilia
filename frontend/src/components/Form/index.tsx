@@ -16,15 +16,23 @@ function Form() {
     const classTag = target.classTag.value;
     const age = target.age.value;
 
-    toast.promise(createStudentService({ studentName, classTag, age }), {
-      pending: "Salvando estudante no banco de dados...",
-      success: "Estudante salvo com sucesso!",
-      error: {
-        render({ data }) {
-          return data.message;
+    toast.promise(
+      createStudentService({ studentName, classTag, age }),
+      {
+        pending: "Salvando estudante no banco de dados...",
+        success: "Estudante salvo com sucesso!",
+        error: {
+          render({ data }) {
+            return data.message;
+          },
         },
       },
-    });
+      {
+        autoClose: 3000,
+        hideProgressBar: true,
+        theme: "dark",
+      }
+    );
   };
 
   return (
