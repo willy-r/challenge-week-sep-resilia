@@ -8,8 +8,8 @@ export async function createStudentService(student: {
   await fetch(`${API_URL}/students`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
-      "Context-Type": "application/json",
+      "Accept": "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       student_name: student.studentName,

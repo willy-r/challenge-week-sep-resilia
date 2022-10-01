@@ -14,21 +14,21 @@ function Form() {
     const classTag = target.classTag.value;
     const age = target.age.value;
 
-    await createStudentService({ studentName, classTag, age })
+    await createStudentService({ studentName, classTag, age });
   };
 
   return (
     <div className="form-wrapper">
       <form className="main-form" onSubmit={saveStudent}>
         <input
-          name="student-name"
+          name="studentName"
           type="text"
           placeholder="Nome do Estudante"
           required
           max="255"
         />
         <input
-          name="class-tag"
+          name="classTag"
           type="text"
           placeholder="Turma"
           required
