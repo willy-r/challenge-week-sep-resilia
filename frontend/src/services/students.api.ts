@@ -8,7 +8,7 @@ export async function createStudentService(student: {
   return await fetch(`${API_URL}/students`, {
     method: "POST",
     headers: {
-      "Accept": "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -16,12 +16,15 @@ export async function createStudentService(student: {
       class_tag: student.classTag,
       age: student.age,
     }),
-  })
-  .then(async (r) => {
+  }).then(async (r) => {
     if (!r.ok) {
-        const data: { detail: string } = await r.json() 
-        throw new Error(data.detail);
+      const data: { detail: string } = await r.json();
+      throw new Error(data.detail);
     }
-    return r
-  })
+    return r;
+  });
+}
+
+export async function getStudents(): Promise<Response> {
+  return await fetch(`${API_URL}/students`);
 }

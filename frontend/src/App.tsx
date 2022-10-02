@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import Form from "./components/Form";
 import Title from "./components/Title";
+import Data from "./components/Data";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Header />
       <Form />
       <Title />
+      <Data />
     </>
   );
 }
