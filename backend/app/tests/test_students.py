@@ -18,7 +18,7 @@ def test_read_students(client, limit, len_expected):
     assert len(r.json()) == len_expected
 
 
-def test_read_no_students(client):
+def test_read_non_existing_students(client):
     r = client.get(STUDENTS_ENDPOINT)
     assert r.status_code == status.HTTP_200_OK
     assert len(r.json()) == 0
@@ -57,6 +57,12 @@ def test_create_existing_student_by_name(client):
     student = {"student_name": "Test Student 1", "class_tag": "T18", "age": 22}
     r = client.post(STUDENTS_ENDPOINT, json=student)
     assert r.status_code == status.HTTP_201_CREATED
+    r = client.post(STUDENTS_ENDPOINT, json=student)
+    assert r.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_create_minor_student(client):
+    student = {"student_name": "Test Student 1", "class_tag": "T18", "age": 17}
     r = client.post(STUDENTS_ENDPOINT, json=student)
     assert r.status_code == status.HTTP_400_BAD_REQUEST
 

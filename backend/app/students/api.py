@@ -46,6 +46,11 @@ def create_student(
             detail=f"Estudante com o nome {student.student_name} já está cadastrado",
             status_code=status.HTTP_400_BAD_REQUEST,
         )
+    if student.age < 18:
+        raise HTTPException(
+            detail=f"Estudante precisa ser maior de idade",
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
     return crud.create_student(db, student)
 
 
