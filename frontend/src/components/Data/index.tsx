@@ -30,7 +30,6 @@ function Data() {
   return (
     <section className="main-data">
       <Table data={students} />
-      <div>Testing</div>
     </section>
   );
 }
