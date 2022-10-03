@@ -20,6 +20,14 @@ def read_students(
     return students
 
 
+@router.get("/ages")
+def read_students_ages(
+    db: Session = Depends(get_db),
+):
+    students_ages = crud.get_students_ages(db)
+    return students_ages
+
+
 @router.get("/{student_id}", response_model=schemas.Student)
 def read_student(student_id: int, db: Session = Depends(get_db)):
     db_student = crud.get_student_by_id(db, student_id)
@@ -66,13 +74,17 @@ def update_student(
             detail=f"Estudante não foi encontrado",
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    if student.student_name != db_student.student_name:
-        if (student.student_name is not None and
-                crud.get_student_by_name(db, student.student_name)) is not None:
-            raise HTTPException(
-                detail=f"Estudante com o nome {student.student_name} já está cadastrado",
-                status_code=status.HTTP_400_BAD_REQUEST,
-            )
+    if student.age is not None and student.age < 18:
+        raise HTTPException(
+            detail=f"Estudante precisa ser maior de idade",
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+    if (student.student_name is not None and
+            crud.get_student_by_name(db, student.student_name)) is not None:
+        raise HTTPException(
+            detail=f"Estudante com o nome {student.student_name} já está cadastrado",
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
     return crud.update_student(db, student_id, student)
 
 

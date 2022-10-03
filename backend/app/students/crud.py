@@ -1,3 +1,4 @@
+from sqlalchemy import case, literal_column, and_, func
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -19,6 +20,35 @@ def get_students(
     # if filters:
     #     query = query.filter_by(**filters)
     return query.offset(skip).limit(limit).all()
+
+
+def get_students_ages(db: Session) -> dict[str, int]:
+    case_expression = case(
+        (
+            and_(models.Student.age >= 18, models.Student.age <= 21),
+            literal_column("'De 18 a 21 anos'")
+        ),
+        (
+            and_(models.Student.age >= 22, models.Student.age <= 25),
+            literal_column("'De 22 a 25 anos'")
+        ),
+        (
+            and_(models.Student.age >= 26, models.Student.age <= 29),
+            literal_column("'De 26 a 29 anos'")
+        ),
+        (
+            and_(models.Student.age >= 30, models.Student.age <= 33),
+            literal_column("'De 30 a 33 anos'")
+        ),
+        else_=literal_column("'Acima de 33 anos'")
+    ).label(
+        "age_cases"
+    )
+    data = db.query(case_expression, func.count()).group_by("age_cases").all()
+    return {
+        desc: count
+        for desc, count in data    
+    }
 
 
 def create_student(

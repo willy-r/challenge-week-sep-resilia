@@ -24,6 +24,22 @@ def test_read_non_existing_students(client):
     assert len(r.json()) == 0
 
 
+@pytest.mark.usefixtures("students")
+def test_read_students_ages(client):
+    r = client.get(f"{STUDENTS_ENDPOINT}/ages")
+    assert r.status_code == status.HTTP_200_OK
+    data = r.json()
+    assert "De 22 a 25 anos" in data
+    assert data["De 22 a 25 anos"] == 2
+    assert len(data) == 1
+
+
+def test_read_non_existing_students_ages(client):
+    r = client.get(f"{STUDENTS_ENDPOINT}/ages")
+    assert r.status_code == status.HTTP_200_OK
+    assert not r.json()
+
+
 def test_read_student(client, student):
     r = client.get(f"{STUDENTS_ENDPOINT}/{student.id}")
     assert r.status_code == status.HTTP_200_OK
@@ -91,11 +107,19 @@ def test_update_non_existing_student(client):
     assert r.status_code == status.HTTP_404_NOT_FOUND
 
 
-@pytest.mark.usefixtures("students")
-def test_update_existing_student_by_name(client):
-    updated_student = {"student_name": "Test Student 2"}
+def test_update_existing_student_by_name(client, student):
+    updated_student = {"student_name": student.student_name}
     r = client.patch(
-        f"{STUDENTS_ENDPOINT}/1",
+        f"{STUDENTS_ENDPOINT}/{student.id}",
+        json=updated_student,
+    )
+    assert r.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_update_minor_student(client, student):
+    updated_student = {"age": 17}
+    r = client.patch(
+        f"{STUDENTS_ENDPOINT}/{student.id}",
         json=updated_student,
     )
     assert r.status_code == status.HTTP_400_BAD_REQUEST

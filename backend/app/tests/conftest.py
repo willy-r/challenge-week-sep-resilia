@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -9,7 +11,8 @@ from ..main import app
 from ..dependencies import get_db
 from ..students import crud as students_crud, schemas as students_schemas
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test_db.sqlite3"
+DATABASE_PATH = os.path.join(os.path.normpath(".."), "test_db.sqlite3")
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
 
 
 @pytest.fixture(scope="session")

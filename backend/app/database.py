@@ -4,7 +4,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", default="sqlite:///./db.sqlite3")
+DATABASE_PATH = os.path.join(os.path.normpath("../.."), "db.sqlite3")
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", default=f"sqlite:///{DATABASE_PATH}")
 
 if SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
     engine = create_engine(
