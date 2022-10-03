@@ -25,6 +25,13 @@ uvicorn app.main:app --port 5001
 
 3. Acesse [http://localhost:5001/docs](http://localhost:5001/docs) para ter acesso ao Swagger da aplicação.
 
+#### Testes
+
+Execute o seguinte comando para rodar os testes
+```bash
+pytest
+```
+
 
 ## [Frontend](./frontend/)
 

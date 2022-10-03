@@ -11,7 +11,7 @@ from ..main import app
 from ..dependencies import get_db
 from ..students import crud as students_crud, schemas as students_schemas
 
-DATABASE_PATH = os.path.join(os.path.normpath(".."), "test_db.sqlite3")
+DATABASE_PATH = os.path.join(os.path.normpath("."), "test_db.sqlite3")
 SQLALCHEMY_DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
 
 
